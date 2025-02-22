@@ -1,0 +1,42 @@
+#pragma kernel cs_main
+static const int thread_group_size = 1024;
+
+struct boid
+{
+    float3 position;
+    float3 direction;
+
+    float3 flock_heading;
+    float3 flock_centre;
+    float3 separation_heading;
+    int num_flockmates;
+};
+
+RWStructuredBuffer<boid> boids;
+int num_boids;
+float view_radius;
+float avoid_radius;
+
+[numthreads(thread_group_size, 1, 1)]
+void cs_main(uint3 id : SV_DispatchThreadID)
+{
+    for (int index_b = 0; index_b < num_boids; index_b++)
+    {
+        if (id.x == index_b)
+            continue;
+
+        boid boid_b = boids[index_b];
+        float3 offset = boid_b.position - boids[id.x].position;
+        float sqr_dst = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+
+        if (sqr_dst >= view_radius * view_radius)
+            continue;
+
+        boids[id.x].num_flockmates += 1;
+        boids[id.x].flock_heading += boid_b.direction;
+        boids[id.x].flock_centre += boid_b.position;
+
+        if (sqr_dst < avoid_radius * avoid_radius)
+            boids[id.x].separation_heading -= offset / sqr_dst;
+    }
+}
