@@ -37,7 +37,7 @@ This project on Unity implements the Boids algorithm to simulate flock behavior.
 
 The project includes two implementations of the Boids algorithm:
 - CPU: An implementation on the CPU that uses the `BoidManagerCPU` class.
-- GPU: A video card implementation that uses the `BoidManagerGPU` class and the BoidCompute.compute shader.
+- GPU: A video card implementation that uses the `BoidManagerGPU` class and the `BoidCompute.compute` shader.
 
 You can switch between these implementations and compare their performance depending on the number of Boids and the complexity of the scene.
 
