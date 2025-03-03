@@ -10,6 +10,7 @@ namespace Boids
         public Vector3 AvgAvoidanceHeading { get; set; }
         public Vector3 CenterOfFlockmates { get; set; }
         public int PerceivedFlockmatesCount { get; set; }
+        public Vector3 CollisionAvoidanceHeading { get; private set; }
 
         private Vector3 _velocity;
         private BoidSettings _settings;
@@ -63,8 +64,8 @@ namespace Boids
             if (IsHeadingForCollision())
             {
                 var collisionAvoidDirection = ObstacleRays();
-                var collisionAvoidForce = SteerTowards(collisionAvoidDirection) * _settings.avoidCollisionWeight;
-                acceleration += collisionAvoidForce;
+                CollisionAvoidanceHeading = SteerTowards(collisionAvoidDirection) * _settings.avoidCollisionWeight;
+                acceleration += CollisionAvoidanceHeading;
             }
 
             _velocity += acceleration * Time.deltaTime;
@@ -86,7 +87,7 @@ namespace Boids
             return Vector3.ClampMagnitude(v, _settings.maxSteerForce);
         }
 
-        private bool IsHeadingForCollision()
+        public bool IsHeadingForCollision()
         {
             return Physics.SphereCast(Position, _settings.boundsRadius, Forward, out _,
                 _settings.collisionAvoidDistance,

@@ -19,6 +19,8 @@ This project on Unity implements the Boids algorithm to simulate flock behavior.
 - `BoidData.cs`: Data structure for Boids.
 - `BoidSettings.cs`: Settings for Boids.
 - `BoidCompute.compute`: A shader to compute the behavior of Boids on the graphics card.
+- `BoidVisualizer.cs`: Visualization tool for boid behaviors, vectors, and connections.
+- `DirectionPointsVisualizer.cs`: Helper class for visualizing direction points as a gradient sphere.
 
 ## Installation
 
@@ -32,6 +34,39 @@ This project on Unity implements the Boids algorithm to simulate flock behavior.
 3. Add a BoidManagerCPU or BoidManagerGPU to the scene to control the Boids.
 4. Configure BoidManager parameters such as BoidSettings and target.
 5. Add obstacles and set the `Wall` or `Obstacle` layer for them.
+6. _(Optional)_ Add BoidVisualizer component to the BoidManager object to visualize boid behaviors.
+
+## Visualization
+
+The project includes visualization tools to help understand and debug the Boids algorithm:
+
+### BoidVisualizer
+
+![Visualization Example](VisualizationExample.png)
+
+This component allows you to visualize various aspects of boid behavior:
+
+- **Direction Vectors**: Shows the forward direction of each boid (blue), alignment (green), cohesion (yellow), separation (red), and collision avoidance (magenta) vectors.
+- **Flock Connections**: Displays lines between boids that are within perception range, with different colors indicating whether they're in avoidance range.
+- **Perception & Avoidance Radii**: Visualizes the perception and avoidance spheres for each boid.
+- **Direction Points**: Shows gradient-colored points on a sphere around each boid representing possible movement directions.
+
+To use:
+1. Add the BoidVisualizer component to the same GameObject that has your BoidManagerCPU component
+2. Configure visualization settings in the inspector
+3. In Play mode, toggle different visualizations on/off to observe different aspects of the algorithm
+
+### DirectionPointsVisualizer
+
+![Direction Visualization Example](DirectionVisualizationExample.png)
+
+This helper class creates a beautiful visualization of the direction sampling sphere used by boids to avoid obstacles:
+
+- Displays points from the BoidHelper.Directions array as small spheres
+- Colors each point according to a configurable gradient
+- Allows adjustment of point size and visualization radius
+
+This visualization helps understand how boids sample directions to avoid obstacles and make navigation decisions.
 
 ## Performance Comparison
 

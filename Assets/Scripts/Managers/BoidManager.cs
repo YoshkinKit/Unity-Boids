@@ -5,9 +5,9 @@ namespace Boids
 {
     public abstract class BoidManager : MonoBehaviour
     {
-        [SerializeField] protected BoidSettings settings;
+        [SerializeField] public BoidSettings settings;
         [SerializeField] protected Transform target;
-        protected Boid[] Boids;
+        public Boid[] Boids { get; private set; }
 
         protected void Start()
         {
